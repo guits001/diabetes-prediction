@@ -39,8 +39,8 @@ wheels/
 Thumbs.db
 
 # Project specific
-*.pkl
-*.pickle
+# *.pkl  # Commented out to allow model files
+# *.pickle
 .streamlit/
 
 # Logs
