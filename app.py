@@ -257,7 +257,8 @@ with tab2:
             'Age': 0.055
         }
         
-        fig_features = px.barh(
+        fig_features = px.bar(
+            orientation='h',
             x=list(features_importance.values()),
             y=list(features_importance.keys()),
             labels={'x': 'Importance Score', 'y': 'Feature'},
