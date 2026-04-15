@@ -51,11 +51,19 @@ st.markdown("""
 # ============================================================================
 @st.cache_resource
 def load_model():
-    """Load trained model, scaler, and feature names"""
+    """Load trained model, scaler, and feature names."""
     model_path = Path("models/diabetes_model.pkl")
     scaler_path = Path("models/scaler.pkl")
     features_path = Path("models/feature_names.pkl")
     
+    # Validate model files exist before loading
+    if not model_path.exists():
+        raise FileNotFoundError(f"Missing model file: {model_path}")
+    if not scaler_path.exists():
+        raise FileNotFoundError(f"Missing scaler file: {scaler_path}")
+    if not features_path.exists():
+        raise FileNotFoundError(f"Missing feature names file: {features_path}")
+
     with open(model_path, 'rb') as f:
         model = pickle.load(f)
     with open(scaler_path, 'rb') as f:
@@ -130,8 +138,12 @@ with tab1:
         's6': [s6]
     })
     
-    prediction = model.predict(input_data)[0]
-    probability = model.predict_proba(input_data)[0]
+    # Ensure the input columns match the feature order used during training
+    input_data = input_data[feature_names]
+    input_data_scaled = scaler.transform(input_data)
+    
+    prediction = model.predict(input_data_scaled)[0]
+    probability = model.predict_proba(input_data_scaled)[0]
     
     st.divider()
     
