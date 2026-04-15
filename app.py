@@ -140,7 +140,7 @@ with tab1:
     
     # Ensure the input columns match the feature order used during training
     input_data = input_data[feature_names]
-    input_data_scaled = scaler.transform(input_data)
+    input_data_scaled = input_data.values
     
     prediction = model.predict(input_data_scaled)[0]
     probability = model.predict_proba(input_data_scaled)[0]
